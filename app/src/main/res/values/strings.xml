@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LiveSplit</string>
+    <string name="games_title">Games</string>
+    <string name="categories_title">Categories</string>
+    <string name="splits_title">Splits</string>
+    <string name="settings_title">Settings</string>
+    <string name="add_game">Add Game</string>
+    <string name="add_category">Add Category</string>
+    <string name="add_segment">Add Split</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="game_name_hint">Game name</string>
+    <string name="category_name_hint">Category name</string>
+    <string name="segment_name_hint">Segment name</string>
+    <string name="launch_timer">Launch Timer</string>
+    <string name="view_splits">View Splits</string>
+    <string name="timer_notification_title">LiveSplit Timer</string>
+    <string name="timer_notification_text">Timer is running</string>
+</resources>
