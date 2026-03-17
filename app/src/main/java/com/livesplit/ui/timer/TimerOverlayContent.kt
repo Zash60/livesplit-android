@@ -35,9 +35,10 @@ fun TimerOverlayContent(
     results: List<SegmentResult>,
     showPbDialog: Boolean,
     newPbTime: Long,
-    onTap: () -> Unit,
-    onLongPress: () -> Unit,
-    categoryName: String
+    categoryName: String,
+    modifier: Modifier = Modifier,
+    onTap: () -> Unit = {},
+    onLongPress: () -> Unit = {}
 ) {
     var showPbDialogInternal by remember { mutableStateOf(false) }
 

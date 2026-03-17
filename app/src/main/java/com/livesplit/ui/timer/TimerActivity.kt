@@ -119,7 +119,7 @@ fun TimerLaunchScreen(
                         context.startActivity(intent)
                     }
                 ) {
-                    Icon(Icons.Default.OpenInNew, contentDescription = null)
+                    Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Grant Permission")
                 }
