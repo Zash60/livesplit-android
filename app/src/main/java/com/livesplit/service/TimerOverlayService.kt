@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
+import android.provider.Settings
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -123,6 +124,11 @@ class TimerOverlayService : Service(), LifecycleOwner {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_START -> {
+                if (!Settings.canDrawOverlays(this)) {
+                    isServiceRunning = false
+                    stopSelf()
+                    return START_NOT_STICKY
+                }
                 categoryId = intent.getLongExtra(EXTRA_CATEGORY_ID, -1)
                 categoryName = intent.getStringExtra(EXTRA_CATEGORY_NAME) ?: "Timer"
                 isServiceRunning = true
@@ -261,6 +267,7 @@ class TimerOverlayService : Service(), LifecycleOwner {
             windowManager.addView(overlayView, params)
         } catch (e: Exception) {
             // Permission not granted
+            isServiceRunning = false
             stopSelf()
         }
     }
