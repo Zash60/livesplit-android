@@ -92,7 +92,7 @@ fun MainScreen() {
                 composable("game/{gameId}") { backStackEntry ->
                     val gameId = backStackEntry.arguments?.getString("gameId")?.toLongOrNull() ?: return@composable
                     GameScreen(
-                        gameId = gameId,
+                        _gameId = gameId,
                         onNavigateBack = { navController.popBackStack() },
                         onNavigateToSplits = { categoryId ->
                             navController.navigate("splits/$categoryId")
@@ -109,7 +109,7 @@ fun MainScreen() {
                 composable("splits/{categoryId}") { backStackEntry ->
                     val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull() ?: return@composable
                     SplitsScreen(
-                        categoryId = categoryId,
+                        _categoryId = categoryId,
                         onNavigateBack = { navController.popBackStack() }
                     )
                 }
