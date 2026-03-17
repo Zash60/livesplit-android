@@ -302,6 +302,7 @@ private fun EditCategoryDialog(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun Modifier.clickable(onClick: () -> Unit): Modifier {
     return this.then(
         Modifier.combinedClickable(onClick = onClick, onLongClick = {})

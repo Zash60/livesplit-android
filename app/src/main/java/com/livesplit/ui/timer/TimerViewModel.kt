@@ -146,19 +146,17 @@ class TimerViewModel @Inject constructor(
 
         val newResults = state.results + result
         val newIndex = state.splitIndex + 1
-        val isFinished = newIndex >= segments.size
 
         val newState = state.copy(
             splitIndex = newIndex,
-            results = newResults,
-            isFinished = isFinished
+            results = newResults
         )
         _uiState.update { it.copy(timerState = newState) }
 
         // Update display
         updateDisplay(newState)
 
-        if (isFinished) {
+        if (newState.isFinished) {
             finishRun(elapsed)
         }
     }

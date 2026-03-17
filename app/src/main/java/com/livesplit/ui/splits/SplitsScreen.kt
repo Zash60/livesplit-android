@@ -145,7 +145,6 @@ fun SplitsScreen(
                                 draggedIndex = -1
                             },
                             modifier = Modifier
-                                .animateItem()
                                 .pointerInput(Unit) {
                                     detectDragGesturesAfterLongPress(
                                         onDragStart = { _ ->
@@ -156,15 +155,6 @@ fun SplitsScreen(
                                         onDragCancel = { draggedIndex = -1 },
                                         onDrag = { change, _ ->
                                             change.consume()
-                                            // Calculate target position based on drag distance
-                                            val itemHeight = 72.dp.toPx()
-                                            val currentY = change.position.y
-                                            val targetIndex = (index + (currentY / itemHeight).toInt())
-                                                .coerceIn(0, uiState.segments.size - 1)
-                                            if (targetIndex != draggedIndex && targetIndex >= 0) {
-                                                viewModel.reorderSegments(draggedIndex, targetIndex)
-                                                draggedIndex = targetIndex
-                                            }
                                         }
                                     )
                                 }
@@ -203,6 +193,7 @@ fun SplitsScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SegmentRow(
     segment: Segment,

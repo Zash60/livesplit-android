@@ -71,7 +71,7 @@ fun TimerOverlay(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val timerColor = Color(uiState.displayColor).let { androidx.compose.ui.graphics.Color(it.red, it.green, it.blue, it.alpha) }
+    val timerColor = androidx.compose.ui.graphics.Color(uiState.displayColor)
 
     Surface(
         modifier = Modifier

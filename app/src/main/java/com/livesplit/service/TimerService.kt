@@ -21,6 +21,7 @@ class TimerService : Service() {
 
         const val EXTRA_CATEGORY_ID = "EXTRA_CATEGORY_ID"
         const val EXTRA_CATEGORY_NAME = "EXTRA_CATEGORY_NAME"
+        private const val NOTIFICATION_ID = 1001
 
         private var isRunning = false
         private var categoryId: Long = -1
@@ -96,7 +97,5 @@ class TimerService : Service() {
         notificationManager.notify(NOTIFICATION_ID, notification)
     }
 
-    companion object {
-        private const val NOTIFICATION_ID = 1001
-    }
+
 }
