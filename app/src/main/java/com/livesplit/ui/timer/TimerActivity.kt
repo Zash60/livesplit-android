@@ -119,7 +119,8 @@ fun TimerLaunchScreen(
                         context.startActivity(intent)
                     }
                 ) {
-                    Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null)
+                    @Suppress("DEPRECATION")
+                    Icon(Icons.Default.OpenInNew, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Grant Permission")
                 }
