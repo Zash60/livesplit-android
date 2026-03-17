@@ -53,6 +53,9 @@ fun TimerOverlayContent(
                 onClick = onTap,
                 onLongClick = onLongPress
             ),
+        color = Color(0xDD1C1B1F),
+        tonalElevation = 8.dp
+    ) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
