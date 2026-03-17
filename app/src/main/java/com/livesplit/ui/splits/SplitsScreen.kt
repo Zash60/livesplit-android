@@ -30,7 +30,7 @@ import com.livesplit.data.model.Segment
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SplitsScreen(
-    @Suppress("unused") categoryId: Long,
+    _categoryId: Long,
     onNavigateBack: () -> Unit,
     viewModel: SplitsViewModel = hiltViewModel()
 ) {

@@ -7,7 +7,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.livesplit.data.model.Segment
 import com.livesplit.data.model.SegmentResult
 import com.livesplit.service.formatTime
-
+@OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun TimerOverlayContent(
     elapsedMs: Long,
@@ -47,11 +47,12 @@ fun TimerOverlayContent(
     }
 
     Surface(
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp)),
-        color = Color(0xDD1C1B1F),
-        tonalElevation = 8.dp
-    ) {
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .combinedClickable(
+                onClick = onTap,
+                onLongClick = onLongPress
+            ),
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally

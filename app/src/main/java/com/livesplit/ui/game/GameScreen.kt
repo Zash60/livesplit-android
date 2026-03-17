@@ -25,7 +25,7 @@ import com.livesplit.data.model.Category
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun GameScreen(
-    @Suppress("unused") gameId: Long,
+    _gameId: Long,
     onNavigateBack: () -> Unit,
     onNavigateToSplits: (Long) -> Unit,
     onNavigateToTimer: (Long) -> Unit,
