@@ -357,6 +357,9 @@ class TimerOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwner {
 
     private fun startTimer() {
         isRunning = true
+        if (splitIndex < 0) {
+            splitIndex = 0
+        }
         startTimeStamp = System.currentTimeMillis() - pausedElapsed
 
         timerJob = serviceScope?.launch {
@@ -369,6 +372,10 @@ class TimerOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwner {
     }
 
     private fun performSplit() {
+        if (segments.isEmpty()) return
+        if (splitIndex < 0) {
+            splitIndex = 0
+        }
         if (splitIndex >= segments.size - 1) return
 
         val currentSegment = segments[splitIndex]
