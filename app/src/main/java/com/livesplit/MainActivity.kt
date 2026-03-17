@@ -42,6 +42,7 @@ fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    var permissionsGranted by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -69,45 +70,53 @@ fun MainScreen() {
                 )
             }
         }
-    ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "games",
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable("games") {
-                GamesScreen(
-                    onGameClick = { gameId ->
-                        navController.navigate("game/$gameId")
-                    }
-                )
-            }
-            composable("game/{gameId}") { backStackEntry ->
-                val gameId = backStackEntry.arguments?.getString("gameId")?.toLongOrNull() ?: return@composable
-                GameScreen(
-                    gameId = gameId,
-                    onNavigateBack = { navController.popBackStack() },
-                    onNavigateToSplits = { categoryId ->
-                        navController.navigate("splits/$categoryId")
-                    },
-                    onNavigateToTimer = { categoryId ->
-                        val intent = android.content.Intent(this@MainScreen, com.livesplit.ui.timer.TimerActivity::class.java)
-                        startActivity(intent)
-                    }
-                )
-            }
-            composable("splits/{categoryId}") { backStackEntry ->
-                val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull() ?: return@composable
-                SplitsScreen(
-                    categoryId = categoryId,
-                    onNavigateBack = { navController.popBackStack() }
-                )
-            }
-            composable("settings") {
-                SettingsScreen(
-                    onNavigateBack = { navController.popBackStack() }
-                )
+) { innerPadding ->
+        if (!permissionsGranted) {
+            com.livesplit.ui.components.PermissionRequestScreen(
+                onComplete = { permissionsGranted = true }
+            )
+        } else {
+            NavHost(
+                navController = navController,
+                startDestination = "games",
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                composable("games") {
+                    GamesScreen(
+                        onGameClick = { gameId ->
+                            navController.navigate("game/$gameId")
+                        }
+                    )
+                }
+                composable("game/{gameId}") { backStackEntry ->
+                    val gameId = backStackEntry.arguments?.getString("gameId")?.toLongOrNull() ?: return@composable
+                    GameScreen(
+                        gameId = gameId,
+                        onNavigateBack = { navController.popBackStack() },
+                        onNavigateToSplits = { categoryId ->
+                            navController.navigate("splits/$categoryId")
+                        },
+                        onNavigateToTimer = { categoryId ->
+                            val intent = android.content.Intent(this@MainScreen, com.livesplit.ui.timer.TimerActivity::class.java)
+                            startActivity(intent)
+                        }
+                    )
+                }
+                composable("splits/{categoryId}") { backStackEntry ->
+                    val categoryId = backStackEntry.arguments?.getString("categoryId")?.toLongOrNull() ?: return@composable
+                    SplitsScreen(
+                        categoryId = categoryId,
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
+                composable("settings") {
+                    SettingsScreen(
+                        onNavigateBack = { navController.popBackStack() }
+                    )
+                }
             }
         }
+    }
+}
     }
 }

@@ -66,6 +66,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.animation:animation")
 
+    // Accompanist
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.6")
 
