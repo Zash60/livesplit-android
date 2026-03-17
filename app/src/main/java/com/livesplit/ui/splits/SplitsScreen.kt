@@ -29,6 +29,7 @@ import com.livesplit.data.model.Segment
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
+@Suppress("UNUSED_PARAMETER")
 fun SplitsScreen(
     _categoryId: Long,
     onNavigateBack: () -> Unit,

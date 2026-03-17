@@ -24,6 +24,7 @@ import com.livesplit.data.model.Category
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
+@Suppress("UNUSED_PARAMETER")
 fun GameScreen(
     _gameId: Long,
     onNavigateBack: () -> Unit,
