@@ -125,7 +125,7 @@ data class SpeedrunRun(
     @Json(name = "level") val level: String?,
     @Json(name = "platform") val platform: String?,
     @Json(name = "date") val date: String?,
-    @Json(name = "times") val RunTimes,
+    @Json(name = "times") val runTimes: RunTimes,
     @Json(name = "comment") val comment: String?,
     @Json(name = "splits") val splits: List<RunSplit>?
 )
