@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,7 +30,7 @@ import com.livesplit.data.model.Segment
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SplitsScreen(
-    categoryId: Long,
+    @Suppress("unused") categoryId: Long,
     onNavigateBack: () -> Unit,
     viewModel: SplitsViewModel = hiltViewModel()
 ) {
@@ -45,7 +45,7 @@ fun SplitsScreen(
                 title = { Text(uiState.categoryName) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -138,12 +138,6 @@ fun SplitsScreen(
                                 hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                                 draggedIndex = index
                             },
-                            onDragEnd = { toIndex ->
-                                if (draggedIndex >= 0 && toIndex >= 0 && draggedIndex != toIndex) {
-                                    viewModel.reorderSegments(draggedIndex, toIndex)
-                                }
-                                draggedIndex = -1
-                            },
                             modifier = Modifier
                                 .pointerInput(Unit) {
                                     detectDragGesturesAfterLongPress(
@@ -201,7 +195,6 @@ private fun SegmentRow(
     isDragged: Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    onDragEnd: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(

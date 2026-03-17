@@ -42,7 +42,7 @@ class SegmentRepository @Inject constructor(
     suspend fun updatePosition(id: Long, position: Int) =
         segmentDao.updatePosition(id, position)
 
-    suspend fun reorderSegments(categoryId: Long, orderedIds: List<Long>) {
+    suspend fun reorderSegments(orderedIds: List<Long>) {
         orderedIds.forEachIndexed { index, id ->
             segmentDao.updatePosition(id, index)
         }

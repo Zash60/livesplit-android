@@ -149,9 +149,8 @@ class SplitsViewModel @Inject constructor(
         currentSegments.add(toIndex, moved)
 
         val orderedIds = currentSegments.map { it.id }
-
         viewModelScope.launch {
-            segmentRepository.reorderSegments(categoryId, orderedIds)
+            segmentRepository.reorderSegments(orderedIds)
         }
     }
 
