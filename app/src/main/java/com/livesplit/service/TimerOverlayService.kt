@@ -13,22 +13,17 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
-import androidx.lifecycle.setViewTreeSavedStateRegistryOwner
-import androidx.savedstate.setViewTreeSavedStateRegistryOwner
-import com.livesplit.LiveSplitApp
 import com.livesplit.MainActivity
 import com.livesplit.R
 import com.livesplit.data.db.AppDatabase
@@ -196,7 +191,6 @@ class TimerOverlayService : Service(), LifecycleOwner {
         // Set up lifecycle for ComposeView
         overlayView.setViewTreeLifecycleOwner(this)
         overlayView.setViewTreeViewModelStoreOwner(null)
-        overlayView.setViewTreeSavedStateRegistryOwner(null)
 
         val (savedX, savedY) = getPosition(this)
 
