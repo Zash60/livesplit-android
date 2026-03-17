@@ -91,7 +91,8 @@ fun MainScreen() {
                         navController.navigate("splits/$categoryId")
                     },
                     onNavigateToTimer = { categoryId ->
-                        navController.navigate("timer/$categoryId")
+                        val intent = android.content.Intent(this@MainScreen, com.livesplit.ui.timer.TimerActivity::class.java)
+                        startActivity(intent)
                     }
                 )
             }
