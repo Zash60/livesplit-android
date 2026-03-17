@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -43,7 +44,7 @@ fun MainScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     var permissionsGranted by remember { mutableStateOf(false) }
-
+    val context = LocalContext.current
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
@@ -97,8 +98,8 @@ fun MainScreen() {
                             navController.navigate("splits/$categoryId")
                         },
                         onNavigateToTimer = { categoryId ->
-                            val intent = android.content.Intent(this@MainScreen, com.livesplit.ui.timer.TimerActivity::class.java)
-                            startActivity(intent)
+                            val intent = android.content.Intent(context, com.livesplit.ui.timer.TimerActivity::class.java)
+                            context.startActivity(intent)
                         }
                     )
                 }
