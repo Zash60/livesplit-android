@@ -74,6 +74,7 @@ fun TimerLaunchScreen(
         mutableStateOf(Settings.canDrawOverlays(context))
     }
     var isServiceRunning by remember { mutableStateOf(TimerOverlayService.isServiceRunning) }
+    var hasAutoStarted by remember { mutableStateOf(false) }
 
     DisposableEffect(lifecycleOwner, context) {
         val observer = LifecycleEventObserver { _, event ->
@@ -91,6 +92,24 @@ fun TimerLaunchScreen(
         while (true) {
             isServiceRunning = TimerOverlayService.isServiceRunning
             kotlinx.coroutines.delay(500)
+        }
+    }
+
+    LaunchedEffect(hasOverlayPermission, isServiceRunning) {
+        if (hasOverlayPermission && !isServiceRunning && !hasAutoStarted) {
+            val intent = Intent(context, TimerOverlayService::class.java).apply {
+                action = TimerOverlayService.ACTION_START
+                putExtra(TimerOverlayService.EXTRA_CATEGORY_ID, categoryId)
+                putExtra(TimerOverlayService.EXTRA_CATEGORY_NAME, categoryName)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(intent)
+            } else {
+                context.startService(intent)
+            }
+            hasAutoStarted = true
+        } else if (hasOverlayPermission && isServiceRunning) {
+            onClose()
         }
     }
 
@@ -181,50 +200,8 @@ fun TimerLaunchScreen(
                     Text("Close Timer")
                 }
             } else {
-                // Start the timer
-                Text(
-                    text = "Start Timer",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = categoryName,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = {
-                        val intent = Intent(context, TimerOverlayService::class.java).apply {
-                            action = TimerOverlayService.ACTION_START
-                            putExtra(TimerOverlayService.EXTRA_CATEGORY_ID, categoryId)
-                            putExtra(TimerOverlayService.EXTRA_CATEGORY_NAME, categoryName)
-                        }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            context.startForegroundService(intent)
-                        } else {
-                            context.startService(intent)
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Start Timer Overlay")
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                OutlinedButton(
-                    onClick = onClose,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Cancel")
-                }
+                // Auto-starting; no UI needed.
+                Spacer(modifier = Modifier.height(1.dp))
             }
         }
     }
