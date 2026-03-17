@@ -52,8 +52,8 @@ class TimerActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Check if service is running and close if not needed
-        if (!TimerOverlayService.isServiceRunning) {
+        // If service is running, activity can be closed since overlay is visible
+        if (TimerOverlayService.isServiceRunning) {
             finish()
         }
     }
