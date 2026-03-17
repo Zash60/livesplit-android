@@ -39,6 +39,12 @@
             android:foregroundServiceType="specialUse"
             android:exported="false" />
 
+        <service
+            android:name=".service.TimerOverlayService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false"
+            android:stopWithTask="true" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.livesplit.androidx-startup"

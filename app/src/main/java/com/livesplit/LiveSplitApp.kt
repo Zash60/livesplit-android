@@ -35,8 +35,18 @@ class LiveSplitApp : Application(), Configuration.Provider {
                 setShowBadge(false)
             }
 
+            val overlayChannel = NotificationChannel(
+                com.livesplit.service.TimerOverlayService.CHANNEL_ID,
+                "Timer Overlay",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = "Shows timer overlay status"
+                setShowBadge(false)
+            }
+
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(timerChannel)
+            notificationManager.createNotificationChannel(overlayChannel)
         }
     }
 }
