@@ -25,6 +25,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.setViewTreeLifecycleOwner
 import androidx.lifecycle.setViewTreeViewModelStoreOwner
+import androidx.savedstate.SavedStateRegistry
+import androidx.savedstate.SavedStateRegistryController
+import androidx.savedstate.SavedStateRegistryOwner
+import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import com.livesplit.MainActivity
 import com.livesplit.R
 import com.livesplit.data.db.AppDatabase
@@ -43,12 +47,15 @@ import kotlinx.coroutines.launch
  * Foreground service that manages a floating timer overlay.
  * The timer can be dragged, tapped to split, and long-pressed to reset.
  */
-class TimerOverlayService : Service(), LifecycleOwner {
+class TimerOverlayService : Service(), LifecycleOwner, SavedStateRegistryOwner {
 
     private lateinit var windowManager: WindowManager
     private var overlayView: View? = null
     private val lifecycleRegistry = LifecycleRegistry(this)
     override val lifecycle: Lifecycle get() = lifecycleRegistry
+    private val savedStateRegistryController = SavedStateRegistryController.create(this)
+    override val savedStateRegistry: SavedStateRegistry
+        get() = savedStateRegistryController.savedStateRegistry
 
     private var serviceScope: CoroutineScope? = null
     private var timerJob: Job? = null
@@ -117,6 +124,8 @@ class TimerOverlayService : Service(), LifecycleOwner {
 
     override fun onCreate() {
         super.onCreate()
+        savedStateRegistryController.performAttach()
+        savedStateRegistryController.performRestore(null)
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
         serviceScope = CoroutineScope(Dispatchers.Main)
     }
@@ -197,6 +206,7 @@ class TimerOverlayService : Service(), LifecycleOwner {
         // Set up lifecycle for ComposeView
         overlayView.setViewTreeLifecycleOwner(this)
         overlayView.setViewTreeViewModelStoreOwner(null)
+        overlayView.setViewTreeSavedStateRegistryOwner(this)
 
         val (savedX, savedY) = getPosition(this)
 
