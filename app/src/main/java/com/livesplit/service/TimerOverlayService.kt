@@ -67,6 +67,7 @@ class TimerOverlayService : Service(), LifecycleOwner {
     var splitIndex by mutableStateOf(-1)
     var categoryId by mutableStateOf(-1L)
     var categoryName by mutableStateOf("")
+    var currentCategoryPb by mutableLongStateOf(0L)
     var showPbDialog by mutableStateOf(false)
     var newPbTime by mutableLongStateOf(0L)
 
@@ -328,9 +329,8 @@ class TimerOverlayService : Service(), LifecycleOwner {
         if (!isRunning && splitIndex >= 0) {
             // Reset with option to save PB
             val finalTime = elapsedMs
-            val currentPb = getCurrentPb()
 
-            if (finalTime > 0 && (currentPb == 0L || finalTime < currentPb)) {
+            if (finalTime > 0 && (currentCategoryPb == 0L || finalTime < currentCategoryPb)) {
                 // New PB - show dialog
                 newPbTime = finalTime
                 showPbDialog = true
@@ -388,12 +388,11 @@ class TimerOverlayService : Service(), LifecycleOwner {
         isRunning = false
 
         val finalTime = elapsedMs
-        val currentPb = getCurrentPb()
 
         serviceScope?.launch {
             try {
                 val db = AppDatabase.getInstance(applicationContext)
-                val isNewPb = currentPb == 0L || finalTime < currentPb
+                val isNewPb = currentCategoryPb == 0L || finalTime < currentCategoryPb
 
                 // Update run count
                 val category = db.categoryDao().getCategoryById(categoryId)
@@ -457,18 +456,6 @@ class TimerOverlayService : Service(), LifecycleOwner {
         // PB already saved in finishRun
         resetTimerState()
         updateOverlay()
-    }
-
-    private fun getCurrentPb(): Long {
-        return try {
-            val db = AppDatabase.getInstance(applicationContext)
-            // Run blocking is okay here since we're in a coroutine
-            kotlinx.coroutines.runBlocking {
-                db.categoryDao().getCategoryById(categoryId)?.personalBestMs ?: 0L
-            }
-        } catch (e: Exception) {
-            0L
-        }
     }
 
     private fun createNotification(): Notification {
